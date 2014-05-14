@@ -58,7 +58,13 @@ jQuery.fn.selectToUISlider = function(settings){
 				groupedData[i].label = jQuery(this).attr('label');
 				groupedData[i].options = [];
 				jQuery(this).find('option').each(function(){
-					groupedData[i].options.push({text: jQuery(this).text(), value: jQuery(this).attr('value')});
+					groupedData[i].options.push({
+						text: jQuery(this).text(),
+						value: jQuery(this).attr('value'),
+						disabled: jQuery(this).attr('disabled'),
+
+						markers: jQuery(this).data('markers')
+					});
 				});
 			});
 			return groupedData;
@@ -84,17 +90,26 @@ jQuery.fn.selectToUISlider = function(settings){
 		range: selects.length > 1,//multiple select elements = true
 		slide: function(e, ui) {//slide function
 				var thisHandle = jQuery(ui.handle);
-				//handle feedback 
-				var textval = ttText(ui.value);
-				thisHandle
-					.attr('aria-valuetext', textval)
-					.attr('aria-valuenow', ui.value)
-					.find('.ui-slider-tooltip .ttContent')
-						.text( textval );
 
 				//control original select menu
 				var currSelect = jQuery('#' + thisHandle.attr('id').split('handle_')[1]);
-				currSelect.find('option').eq(ui.value).attr('selected', 'selected');
+				var option = currSelect.find('option').eq(ui.value);
+				if(option.attr('disabled') != 'disabled'){
+					option.attr('selected', 'selected');
+					currSelect.trigger('sliderchange',[textval]);
+
+					//handle feedback 
+					var textval = ttText(ui.value);
+					thisHandle
+						.attr('aria-valuetext', textval)
+						.attr('aria-valuenow', ui.value)
+						.find('.ui-slider-tooltip .ttContent')
+							.text( textval );
+				}else{
+					// if this option is disabled, abort the slider change
+					return false;
+				}
+
 		},
 		values: (function(){
 			var values = [];
@@ -124,6 +139,8 @@ jQuery.fn.selectToUISlider = function(settings){
 	selects.each(function(i){
 		var hidett = '';
 		
+		var disabled = (jQuery(this).attr('disabled') == 'disabled');
+
 		//associate label for ARIA
 		var thisLabel = jQuery('label[for=' + jQuery(this).attr('id') +']');
 		//labelled by aria doesn't seem to work on slider handle. Using title attr as backup
@@ -131,11 +148,15 @@ jQuery.fn.selectToUISlider = function(settings){
 		var thisLabelId = thisLabel.attr('id') || thisLabel.attr('id', 'label_'+handleIds[i]).attr('id');
 		
 		
+		// add an extra class for a disabled section of the slider
+		var hclass = 'ui-slider-handle';
+		if(disabled){ hclass += ' ui-slider-handle-disabled'; }
+
 		if( options.tooltip == false ){hidett = ' style="display: none;"';}
 		jQuery('<a '+
 				'href="#" tabindex="0" '+
 				'id="'+handleIds[i]+'" '+
-				'class="ui-slider-handle" '+
+				'class="'+hclass+'" '+
 				'role="slider" '+
 				'aria-labelledby="'+thisLabelId+'" '+
 				'aria-valuemin="'+options.sliderOptions.min+'" '+
@@ -156,13 +177,32 @@ jQuery.fn.selectToUISlider = function(settings){
 	if(groups) {
 		var inc = 0;
 		var scale = sliderComponent.append('<dl class="ui-slider-scale ui-helper-reset" role="presentation"></dl>').find('.ui-slider-scale:eq(0)');
-		jQuery(groups).each(function(h){
+		jQuery(groups).each(function(h,group){
+			// THIS ASSUMES GROUPS HAVE EQUAL NUMBER OF OPTIONS
 			scale.append('<dt style="width: '+ (100/groups.length).toFixed(2) +'%' +'; left:'+ (h/(groups.length-1) * 100).toFixed(2)  +'%' +'"><span>'+this.label+'</span></dt>');//class name becomes camelCased label
 			var groupOpts = this.options;
-			jQuery(this.options).each(function(i){
+
+			jQuery(this.options).each(function(i,opt){
 				var style = (inc == selectOptions.length-1 || inc == 0) ? 'style="display: none;"' : '' ;
+
 				var labelText = (options.labelSrc == 'text') ? groupOpts[i].text : groupOpts[i].value;
-				scale.append('<dd style="left:'+ leftVal(inc) +'"><span class="ui-slider-label">'+ labelText +'</span><span class="ui-slider-tic ui-widget-content"'+ style +'></span></dd>');
+				var groupLabel = (i == 0) ? '<span style="position:relative"><span class="ui-slider-label-group">'+group.label+'</span></span>' : '';
+
+				if(opt.markers && opt.markers.length > 0){
+					jQuery.each(opt.markers,function(i,m){
+						labelText += '<br/><span class="ui-slider-marker ui-corner-all"><a href="#">'+m+'</a></span>';
+					});
+				}
+
+
+				var $label = jQuery('<dd style="left:'+ leftVal(inc) +'">'+groupLabel+'<span class="ui-slider-label">'+ labelText +'</span><span class="ui-slider-tic ui-widget-content"'+ style +'></span></dd>');
+				if(opt.disabled == 'disabled'){
+					$label.find('.ui-slider-label').addClass('ui-slider-label-disabled');
+					$label.find('.ui-slider-tic').addClass('ui-slider-tic-disabled');
+					$label.find('.ui-slider-marker').addClass('ui-slider-marker-disabled');
+				}
+
+				scale.append($label);
 				inc++;
 			});
 		});
@@ -193,12 +233,13 @@ jQuery.fn.selectToUISlider = function(settings){
 	var increm = Math.max(1, Math.round(selectOptions.length / options.labels));
 	//show em based on inc
 	for(var j=0; j<selectOptions.length; j+=increm){
-		if((selectOptions.length - j) > increm){//don't show if it's too close to the end label
+		//if((selectOptions.length - j) > increm){//don't show if it's too close to the end label
 			sliderComponent.find('.ui-slider-scale li:eq('+ j +') span.ui-slider-label, .ui-slider-scale dd:eq('+ j +') span.ui-slider-label').addClass('ui-slider-label-show');
-		}
+		//}
 	}
 
 	//style the dt's
+	// THIS ASSUMES GROUPS HAVE EQUAL NUMBER OF OPTIONS	
 	sliderComponent.find('.ui-slider-scale dt').each(function(i){
 		jQuery(this).css({
 			'left': ((100 /( groups.length))*i).toFixed(2) + '%'

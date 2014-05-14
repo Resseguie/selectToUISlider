@@ -3,11 +3,15 @@
 	<head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Demo Page: Using Progressive Enhancement to Convert a Select Box Into an Accessible jQuery UI Slider</title>
-	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" src="js/jquery-ui-1.7.1.custom.min.js"></script>
+
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
 	<script type="text/javascript" src="js/selectToUISlider.jQuery.js"></script>
 	<link rel="stylesheet" href="css/redmond/jquery-ui-1.7.1.custom.css" type="text/css" />
 	<link rel="Stylesheet" href="css/ui.slider.extras.css" type="text/css" />
+	
 	<style type="text/css">
 		body {font-size: 62.5%; font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; }
 		fieldset { border:0; margin: 6em; height: 12em;}	
@@ -15,42 +19,55 @@
 		select {margin-right: 1em; float: left;}
 		.ui-slider {clear: both; top: 5em;}
 	</style>
+
 	<script type="text/javascript">
 		$(function(){
-			//demo 1
-			var abc = $('select#speed').selectToUISlider().next();
-					
-			//demo 2
-			$('select#valueA, select#valueB').selectToUISlider();
-		
-			//demo 3
-			$('select#valueAA, select#valueBB').selectToUISlider({
-				labels: 12
+			$('select#speed').selectToUISlider({})
+			.bind('sliderchange',function(event,value){
+				//console.debug('new speed selected: %o',value);
 			});
-			
-			//fix color 
-			fixToolTipColor();
+
+			$('select#demo2').selectToUISlider({
+				labels: 25,
+				labelSrc: 'text',
+				tooltipSrc: 'value',
+				sliderOptions: {
+					animate: 'slow'
+				},
+			}).bind('sliderchange',function(event,value){
+				//console.debug('new speed selected: %o',value);
+			});
+
+			$('select#demo3a, select#demo3b').selectToUISlider({
+				labels: 25,
+				labelSrc: 'text',
+				tooltipSrc: 'value',
+				sliderOptions: {
+					animate: 'slow'
+				},
+			}).bind('sliderchange',function(event,value){
+				// If you want to check range, just get the values from the select boxes themselves
+				//console.debug('new reporting period selected: %o',value);
+			});
 		});
-		//purely for theme-switching demo... ignore this unless you're using a theme switcher
-		//quick function for tooltip color match
-		function fixToolTipColor(){
-			//grab the bg color from the tooltip content - set top border of pointer to same
-			$('.ui-tooltip-pointer-down-inner').each(function(){
-				var bWidth = $('.ui-tooltip-pointer-down-inner').css('borderTopWidth');
-				var bColor = $(this).parents('.ui-slider-tooltip').css('backgroundColor')
-				$(this).css('border-top', bWidth+' solid '+bColor);
-			});	
-		}
 	</script>
+
 	<!-- jQuery UI theme switcher -->
-	<script type="text/javascript" src="http://ui.jquery.com/applications/themeroller/themeswitchertool/"></script>
-	<script type="text/javascript"> $(function(){ $('<div style="position: absolute; right: 20px; margin-top: -40px" />').appendTo('body').themeswitcher({onSelect: function(){ setTimeout(fixToolTipColor, 800); }}); });</script>
+	<script type="text/javascript" src="js/jquery.themeswitcher.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('<div style="position: absolute; right: 20px;"><div id="themeswitcher"></div></div>').prependTo('body');
+			$('#themeswitcher')
+			.themeswitcher({
+				imgPath: 'images/themeswitcher/'
+			});
+		});
+	</script>
 </head>
 
 <body>
-
+	<h1>Single select (simple)</h1>
 	<form action="#">
-		<!-- demo 1 -->
 		<fieldset>
 			<label for="speed">Select a Speed:</label>
 			<select name="speed" id="speed">
@@ -61,235 +78,164 @@
 				<option value="Faster">Faster</option>
 			</select>
 		</fieldset>
-		
-		<!-- demo 2 -->
+	</form>
+
+	<h1>Single select (with markers and disabled options)</h1>
+	<form action="#">
 		<fieldset>
-			<label for="valueA">From:</label>
-			<select name="valueA" id="valueA">
-				<option value="6am">6:00</option>
-				<option value="7am">7:00</option>
-				<option value="8am">8:00</option>
-				<option value="9am" selected="selected">9:00</option>
-				<option value="10am">10:00</option>
-				<option value="11am">11:00</option>
-				<option value="Noon">Noon</option>
-				<option value="1pm">1:00</option>
-				<option value="2pm">2:00</option>
-				<option value="3pm">3:00</option>
-				<option value="4pm">4:00</option>
-				<option value="5pm">5:00</option>
-				<option value="6pm">6:00</option>
-				<option value="7pm">7:00</option>
-				<option value="8pm">8:00</option>
-				<option value="9pm">9:00</option>
-				<option value="10pm">10:00</option>
-				<option value="11pm">11:00</option>
-				<option value="12pm">12:00</option>
-			</select>
-	
-			<label for="valueB">To:</label>
-			<select name="valueB" id="valueB">
-				<option value="6am">6:00</option>
-				<option value="7am">7:00</option>
-				<option value="8am">8:00</option>
-				<option value="9am">9:00</option>
-				<option value="10am">10:00</option>
-				<option value="11am">11:00</option>
-				<option value="Noon">Noon</option>
-				<option value="1pm">1:00</option>
-				<option value="2pm">2:00</option>
-				<option value="3pm">3:00</option>
-				<option value="4pm">4:00</option>
-				<option value="5pm">5:00</option>
-				<option value="6pm">6:00</option>
-				<option value="7pm">7:00</option>
-				<option value="8pm">8:00</option>
-				<option value="9pm" selected="selected">9:00</option>
-				<option value="10pm">10:00</option>
-				<option value="11pm">11:00</option>
-				<option value="12pm">12:00</option>
-			</select>
-		</fieldset>
-		
-		
-		<!-- demo 3 -->
-		<fieldset>
-			<label for="valueAA">From:</label>
-			<select name="valueAA" id="valueAA">
-				<optgroup label="2003">
-					<option value="01/03">Jan 03</option>
-					<option value="02/03">Feb 03</option>
-					<option value="03/03">Mar 03</option>
-					<option value="03/03">Apr 03</option>
-					<option value="03/03">May 03</option>
-					<option value="06/03">Jun 03</option>
-					<option value="07/03">Jul 03</option>
-					<option value="08/03" selected="selected">Aug 03</option>
-					<option value="09/03">Sep 03</option>
-					<option value="10/03">Oct 03</option>
-					<option value="11/03">Nov 03</option>
-					<option value="12/03">Dec 03</option>
+			<label for="demo2">Reporting Period:</label>
+			<select name="demo2" id="demo2">
+
+				<optgroup label="2010">
+					<option value="01/10">Jan</option>
+					<option value="02/10">Feb</option>
+					<option value="03/10" data-markers='["Q"]'>Mar</option>
+					<option value="04/10">Apr</option>
+					<option value="05/10">May</option>
+					<option value="06/10" data-markers='["Q"]'>Jun</option>
+					<option value="07/10">Jul</option>
+					<option value="08/10">Aug</option>
+					<option value="09/10" data-markers='["Q"]'>Sep</option>
+					<option value="10/10">Oct</option>
+					<option value="11/10">Nov</option>
+					<option value="12/10" data-markers='["Q","A"]'>Dec</option>
 				</optgroup>
-				<optgroup label="2004">
-					<option value="01/04">Jan 04</option>
-					<option value="02/04">Feb 04</option>
-					<option value="03/04">Mar 04</option>
-					<option value="04/04">Apr 04</option>
-					<option value="04/04">May 04</option>
-					<option value="06/04">Jun 04</option>
-					<option value="07/04">Jul 04</option>
-					<option value="08/04">Aug 04</option>
-					<option value="09/04">Sep 04</option>
-					<option value="10/04">Oct 04</option>
-					<option value="11/04">Nov 04</option>
-					<option value="12/04">Dec 04</option>
+
+				<optgroup label="2011">
+					<option value="01/11">Jan</option>
+					<option value="02/11" selected="selected">Feb</option>
+					<option value="03/11" data-markers='["Q"]'>Mar</option>
+					<option value="04/11">Apr</option>
+					<option value="05/11">May</option>
+					<option value="06/11" data-markers='["Q"]'>Jun</option>
+					<option value="07/11">Jul</option>
+					<option value="08/11">Aug</option>
+					<option value="09/11" data-markers='["Q"]'>Sep</option>
+					<option value="10/11">Oct</option>
+					<option value="11/11">Nov</option>
+					<option value="12/11"  data-markers='["Q","A"]'>Dec</option>
 				</optgroup>
-				<optgroup label="2005">
-					<option value="01/05">Jan 05</option>
-					<option value="02/05">Feb 05</option>
-					<option value="03/05">Mar 05</option>
-					<option value="04/05">Apr 05</option>
-					<option value="05/05">May 05</option>
-					<option value="06/05">Jun 05</option>
-					<option value="07/05">Jul 05</option>
-					<option value="08/05">Aug 05</option>
-					<option value="09/05">Sep 05</option>
-					<option value="10/05">Oct 05</option>
-					<option value="11/05">Nov 05</option>
-					<option value="12/05">Dec 05</option>
-				</optgroup>
-				<optgroup label="2006">
-					<option value="01/06">Jan 06</option>
-					<option value="02/06">Feb 06</option>
-					<option value="03/06">Mar 06</option>
-					<option value="04/06">Apr 06</option>
-					<option value="06/06">May 06</option>
-					<option value="06/06">Jun 06</option>
-					<option value="07/06">Jul 06</option>
-					<option value="08/06">Aug 06</option>
-					<option value="09/06">Sep 06</option>
-					<option value="10/06">Oct 06</option>
-					<option value="11/06">Nov 06</option>
-					<option value="12/06">Dec 06</option>
-				</optgroup>
-				<optgroup label="2007">
-					<option value="01/07">Jan 07</option>
-					<option value="02/07">Feb 07</option>
-					<option value="03/07">Mar 07</option>
-					<option value="04/07">Apr 07</option>
-					<option value="07/07">May 07</option>
-					<option value="07/07">Jun 07</option>
-					<option value="07/07">Jul 07</option>
-					<option value="08/07">Aug 07</option>
-					<option value="09/07">Sep 07</option>
-					<option value="10/07">Oct 07</option>
-					<option value="11/07">Nov 07</option>
-					<option value="12/07">Dec 07</option>
-				</optgroup>
-				<optgroup label="2008">
-					<option value="01/08">Jan 08</option>
-					<option value="02/08">Feb 08</option>
-					<option value="03/08">Mar 08</option>
-					<option value="04/08">Apr 08</option>
-					<option value="08/08">May 08</option>
-					<option value="08/08">Jun 08</option>
-					<option value="08/08">Jul 08</option>
-					<option value="08/08">Aug 08</option>
-					<option value="09/08">Sep 08</option>
-					<option value="10/08">Oct 08</option>
-					<option value="11/08">Nov 08</option>
-					<option value="12/08">Dec 08</option>
-				</optgroup>
-			</select>
-	
-			<label for="valueBB">To:</label>
-			<select name="valueBB" id="valueBB">
-				<optgroup label="2003">
-					<option value="01/03">Jan 03</option>
-					<option value="02/03">Feb 03</option>
-					<option value="03/03">Mar 03</option>
-					<option value="03/03">Apr 03</option>
-					<option value="03/03">May 03</option>
-					<option value="06/03">Jun 03</option>
-					<option value="07/03">Jul 03</option>
-					<option value="08/03">Aug 03</option>
-					<option value="09/03">Sep 03</option>
-					<option value="10/03">Oct 03</option>
-					<option value="11/03">Nov 03</option>
-					<option value="12/03">Dec 03</option>
-				</optgroup>
-				<optgroup label="2004">
-					<option value="01/04">Jan 04</option>
-					<option value="02/04">Feb 04</option>
-					<option value="03/04">Mar 04</option>
-					<option value="04/04">Apr 04</option>
-					<option value="04/04">May 04</option>
-					<option value="06/04">Jun 04</option>
-					<option value="07/04">Jul 04</option>
-					<option value="08/04">Aug 04</option>
-					<option value="09/04">Sep 04</option>
-					<option value="10/04">Oct 04</option>
-					<option value="11/04">Nov 04</option>
-					<option value="12/04">Dec 04</option>
-				</optgroup>
-				<optgroup label="2005">
-					<option value="01/05">Jan 05</option>
-					<option value="02/05">Feb 05</option>
-					<option value="03/05">Mar 05</option>
-					<option value="04/05">Apr 05</option>
-					<option value="05/05">May 05</option>
-					<option value="06/05">Jun 05</option>
-					<option value="07/05">Jul 05</option>
-					<option value="08/05">Aug 05</option>
-					<option value="09/05">Sep 05</option>
-					<option value="10/05">Oct 05</option>
-					<option value="11/05">Nov 05</option>
-					<option value="12/05">Dec 05</option>
-				</optgroup>
-				<optgroup label="2006">
-					<option value="01/06">Jan 06</option>
-					<option value="02/06">Feb 06</option>
-					<option value="03/06">Mar 06</option>
-					<option value="04/06">Apr 06</option>
-					<option value="06/06">May 06</option>
-					<option value="06/06">Jun 06</option>
-					<option value="07/06">Jul 06</option>
-					<option value="08/06">Aug 06</option>
-					<option value="09/06">Sep 06</option>
-					<option value="10/06">Oct 06</option>
-					<option value="11/06">Nov 06</option>
-					<option value="12/06">Dec 06</option>
-				</optgroup>
-				<optgroup label="2007">
-					<option value="01/07">Jan 07</option>
-					<option value="02/07">Feb 07</option>
-					<option value="03/07">Mar 07</option>
-					<option value="04/07">Apr 07</option>
-					<option value="07/07">May 07</option>
-					<option value="07/07">Jun 07</option>
-					<option value="07/07">Jul 07</option>
-					<option value="08/07" selected="selected">Aug 07</option>
-					<option value="09/07">Sep 07</option>
-					<option value="10/07">Oct 07</option>
-					<option value="11/07">Nov 07</option>
-					<option value="12/07">Dec 07</option>
-				</optgroup>
-				<optgroup label="2008">
-					<option value="01/08">Jan 08</option>
-					<option value="02/08">Feb 08</option>
-					<option value="03/08">Mar 08</option>
-					<option value="04/08">Apr 08</option>
-					<option value="08/08">May 08</option>
-					<option value="08/08">Jun 08</option>
-					<option value="08/08">Jul 08</option>
-					<option value="08/08">Aug 08</option>
-					<option value="09/08">Sep 08</option>
-					<option value="10/08">Oct 08</option>
-					<option value="11/08">Nov 08</option>
-					<option value="12/08">Dec 08</option>
+
+				<optgroup label="2012">
+					<option value="01/12">Jan</option>
+					<option value="02/12">Feb</option>
+					<option value="03/12" data-markers='["Q"]' disabled="disabled">Mar</option>
+					<option value="04/12" disabled="disabled">Apr</option>
+					<option value="05/12" disabled="disabled">May</option>
+					<option value="06/12" data-markers='["Q"]' disabled="disabled">Jun</option>
+					<option value="07/12" disabled="disabled">Jul</option>
+					<option value="08/12" disabled="disabled">Aug</option>
+					<option value="09/12" data-markers='["Q"]' disabled="disabled">Sep</option>
+					<option value="10/12" disabled="disabled">Oct</option>
+					<option value="11/12" disabled="disabled">Nov</option>
+					<option value="12/12" data-markers='["Q","A"]' disabled="disabled">Dec</option>
 				</optgroup>
 			</select>
 		</fieldset>
 	</form>
+
+	<h1>Range select</h1>
+	<form action="#">
+		<fieldset>
+			<label for="demo3a">From:</label>
+			<select name="demo3a" id="demo3a">
+
+				<optgroup label="2010">
+					<option value="01/10">Jan</option>
+					<option value="02/10">Feb</option>
+					<option value="03/10" data-markers='["Q"]'>Mar</option>
+					<option value="04/10">Apr</option>
+					<option value="05/10">May</option>
+					<option value="06/10" data-markers='["Q"]'>Jun</option>
+					<option value="07/10">Jul</option>
+					<option value="08/10">Aug</option>
+					<option value="09/10" data-markers='["Q"]'>Sep</option>
+					<option value="10/10">Oct</option>
+					<option value="11/10">Nov</option>
+					<option value="12/10" data-markers='["Q","A"]'>Dec</option>
+				</optgroup>
+
+				<optgroup label="2011">
+					<option value="01/11" selected="selected">Jan</option>
+					<option value="02/11">Feb</option>
+					<option value="03/11" data-markers='["Q"]'>Mar</option>
+					<option value="04/11">Apr</option>
+					<option value="05/11">May</option>
+					<option value="06/11" data-markers='["Q"]'>Jun</option>
+					<option value="07/11">Jul</option>
+					<option value="08/11">Aug</option>
+					<option value="09/11" data-markers='["Q"]'>Sep</option>
+					<option value="10/11">Oct</option>
+					<option value="11/11">Nov</option>
+					<option value="12/11"  data-markers='["Q","A"]'>Dec</option>
+				</optgroup>
+
+				<optgroup label="2012">
+					<option value="01/12">Jan</option>
+					<option value="02/12">Feb</option>
+					<option value="03/12" data-markers='["Q"]' disabled="disabled">Mar</option>
+					<option value="04/12" disabled="disabled">Apr</option>
+					<option value="05/12" disabled="disabled">May</option>
+					<option value="06/12" data-markers='["Q"]' disabled="disabled">Jun</option>
+					<option value="07/12" disabled="disabled">Jul</option>
+					<option value="08/12" disabled="disabled">Aug</option>
+					<option value="09/12" data-markers='["Q"]' disabled="disabled">Sep</option>
+					<option value="10/12" disabled="disabled">Oct</option>
+					<option value="11/12" disabled="disabled">Nov</option>
+					<option value="12/12" data-markers='["Q","A"]' disabled="disabled">Dec</option>
+				</optgroup>
+			</select>
+
+			<label for="demo3b">To:</label>
+			<select name="demo3b" id="demo3b">
+
+				<optgroup label="2010">
+					<option value="01/10">Jan</option>
+					<option value="02/10">Feb</option>
+					<option value="03/10" data-markers='["Q"]'>Mar</option>
+					<option value="04/10">Apr</option>
+					<option value="05/10">May</option>
+					<option value="06/10" data-markers='["Q"]'>Jun</option>
+					<option value="07/10">Jul</option>
+					<option value="08/10">Aug</option>
+					<option value="09/10" data-markers='["Q"]'>Sep</option>
+					<option value="10/10">Oct</option>
+					<option value="11/10">Nov</option>
+					<option value="12/10" data-markers='["Q","A"]'>Dec</option>
+				</optgroup>
+
+				<optgroup label="2011">
+					<option value="01/11">Jan</option>
+					<option value="02/11">Feb</option>
+					<option value="03/11" data-markers='["Q"]'>Mar</option>
+					<option value="04/11">Apr</option>
+					<option value="05/11">May</option>
+					<option value="06/11" data-markers='["Q"]'>Jun</option>
+					<option value="07/11">Jul</option>
+					<option value="08/11">Aug</option>
+					<option value="09/11" data-markers='["Q"]'>Sep</option>
+					<option value="10/11">Oct</option>
+					<option value="11/11">Nov</option>
+					<option value="12/11"  data-markers='["Q","A"]'>Dec</option>
+				</optgroup>
+
+				<optgroup label="2012">
+					<option value="01/12">Jan</option>
+					<option value="02/12" selected="selected">Feb</option>
+					<option value="03/12" data-markers='["Q"]' disabled="disabled">Mar</option>
+					<option value="04/12" disabled="disabled">Apr</option>
+					<option value="05/12" disabled="disabled">May</option>
+					<option value="06/12" data-markers='["Q"]' disabled="disabled">Jun</option>
+					<option value="07/12" disabled="disabled">Jul</option>
+					<option value="08/12" disabled="disabled">Aug</option>
+					<option value="09/12" data-markers='["Q"]' disabled="disabled">Sep</option>
+					<option value="10/12" disabled="disabled">Oct</option>
+					<option value="11/12" disabled="disabled">Nov</option>
+					<option value="12/12" data-markers='["Q","A"]' disabled="disabled">Dec</option>
+				</optgroup>
+			</select>
+		</fieldset>
+	</form>
+
 </body>
 </html>
