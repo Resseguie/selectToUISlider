@@ -1,0 +1,21 @@
+{
+  "name": "selectToUISlider",
+  "version": "0.1.0",
+  "authors": [
+    "Scott Jehl <scott@filamentgroup.com>",
+    "Scott W. Bradley <scottwb@gmail.com>",
+    "David Resseguie <david@resseguie.com>"
+  ],
+  "description": "Create jQuery UI Slider from a Select Element - now with ARIA Support",
+
+  "main" : ["./js/selectToUISlider.jQuery.js","./css/ui.slider.extras.css"],
+  "ignore": [
+    "**/.*",
+    "README.md",
+    "index.html",
+    "js/jquery.themeswitcher.js",
+    "css/redmond"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}
