@@ -14,7 +14,8 @@
     "README.md",
     "index.html",
     "js/jquery.themeswitcher.js",
-    "css/redmond"
+    "css/redmond",
+    "images"
   ],
   "dependencies": {},
   "devDependencies": {}
