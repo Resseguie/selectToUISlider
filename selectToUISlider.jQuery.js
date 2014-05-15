@@ -116,9 +116,10 @@ jQuery.fn.selectToUISlider = function(settings){
 					.find('.ui-slider-tooltip .ttContent')
 						.text( textval );
 
-				option.attr('selected', 'selected');
+				//option.attr('selected', 'selected');
+				currSelect.val(option.val());
 				currSelect.trigger('sliderchange',[textval]);
-				currSelect.trigger(jQuery.Event('change', {uiSliderEvent: e, uiSliderContext: ui}), [textval]);
+				currSelect.trigger(jQuery.Event('change', {uiSliderEvent: e, uiSliderContext: ui}));
 
 
 		},

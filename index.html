@@ -28,9 +28,9 @@
 				// only fired when slider used to change value
 				console.debug('new speed selected with slider: %o',value);
 			})
-			.bind('change',function(event,value){
+			.bind('change',function(event){
 				// fired if slider or select box used to change value
-				console.debug('new speed selected: %o',value);
+				console.debug('new speed selected: %o',$("option:selected",this).val());
 			});
 
 			$('select#demo2').selectToUISlider({
@@ -41,8 +41,8 @@
 					animate: 'slow'
 				}
 			})
-			.bind('change',function(event,value){
-				console.debug('new date selected: %o',value);
+			.bind('change',function(event){
+				console.debug('new date selected: %o',$("option:selected",this).val());
 			});
 
 			$('select#demo3a, select#demo3b').selectToUISlider({
@@ -54,7 +54,7 @@
 					animate: 'slow'
 				}
 			})
-			.bind('change',function(event,value){
+			.bind('change',function(event){
 				// If you want to check range, just get the values from the select boxes themselves
 				// or look at the event.uiSliderContext
 			});
