@@ -4,7 +4,8 @@
   "authors": [
     "Scott Jehl <scott@filamentgroup.com>",
     "Scott W. Bradley <scottwb@gmail.com>",
-    "David Resseguie <david@resseguie.com>"
+    "David Resseguie <david@resseguie.com>",
+    "Sergey Rezvanov <sergey@rezvanov.info>"
   ],
   "description": "Create jQuery UI Slider from a Select Element - now with ARIA Support",
 
@@ -13,9 +14,6 @@
     "**/.*",
     "README.md",
     "index.html",
-    "js/jquery.themeswitcher.js",
-    "css/redmond",
-    "images",
     "bower_components"
   ],
   "dependencies": {
