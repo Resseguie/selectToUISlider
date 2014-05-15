@@ -1,0 +1,13 @@
+{
+  "name": "super-theme-switcher",
+  "homepage": "https://github.com/harborhoffer/Super-Theme-Switcher",
+  "_release": "664a1cea3e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "664a1cea3e691475b0a89fb415b67ef568e41127"
+  },
+  "_source": "git://github.com/harborhoffer/Super-Theme-Switcher.git",
+  "_target": "*",
+  "_originalSource": "harborhoffer/Super-Theme-Switcher"
+}

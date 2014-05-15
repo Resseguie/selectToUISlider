@@ -8,15 +8,20 @@
   ],
   "description": "Create jQuery UI Slider from a Select Element - now with ARIA Support",
 
-  "main" : ["./js/selectToUISlider.jQuery.js","./css/ui.slider.extras.css"],
+  "main" : ["./js/selectToUISlider.jQuery.js","./css/selectToUISlider.css"],
   "ignore": [
     "**/.*",
     "README.md",
     "index.html",
     "js/jquery.themeswitcher.js",
     "css/redmond",
-    "images"
+    "images",
+    "bower_components"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "jquery": ">=1.11",
+    "jquery-ui": ">= 1.10",
+    "super-theme-switcher": "harborhoffer/Super-Theme-Switcher"
+  },
   "devDependencies": {}
 }

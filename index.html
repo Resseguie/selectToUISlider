@@ -5,12 +5,13 @@
 	<title>Demo Page: Using Progressive Enhancement to Convert a Select Box Into an Accessible jQuery UI Slider</title>
 
 	
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-
-	<script type="text/javascript" src="js/selectToUISlider.jQuery.js"></script>
-	<link rel="stylesheet" href="css/redmond/jquery-ui-1.7.1.custom.css" type="text/css" />
-	<link rel="Stylesheet" href="css/ui.slider.extras.css" type="text/css" />
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="bower_components/super-theme-switcher/jquery.themeswitcher.js"></script>
+	<script type="text/javascript" src="selectToUISlider.jQuery.js"></script>
+	
+	<link rel="stylesheet" href="bower_components/jquery-ui/themes/redmond/jquery-ui.min.css" type="text/css" />
+	<link rel="Stylesheet" href="selectToUISlider.css" type="text/css" />
 	
 	<style type="text/css">
 		body {font-size: 62.5%; font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; }
@@ -53,13 +54,13 @@
 	</script>
 
 	<!-- jQuery UI theme switcher -->
-	<script type="text/javascript" src="js/jquery.themeswitcher.js"></script>
+
 	<script type="text/javascript">
 		$(function(){
 			$('<div style="position: absolute; right: 20px;"><div id="themeswitcher"></div></div>').prependTo('body');
 			$('#themeswitcher')
 			.themeswitcher({
-				imgPath: 'images/themeswitcher/'
+				imgPath: 'bower_components/super-theme-switcher/images/'
 			});
 		});
 	</script>
