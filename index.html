@@ -25,7 +25,12 @@
 		$(function(){
 			$('select#speed').selectToUISlider({})
 			.bind('sliderchange',function(event,value){
-				//console.debug('new speed selected: %o',value);
+				// only fired when slider used to change value
+				console.debug('new speed selected with slider: %o',value);
+			})
+			.bind('change',function(event,value){
+				// fired if slider or select box used to change value
+				console.debug('new speed selected: %o',value);
 			});
 
 			$('select#demo2').selectToUISlider({
@@ -34,9 +39,10 @@
 				tooltipSrc: 'value',
 				sliderOptions: {
 					animate: 'slow'
-				},
-			}).bind('sliderchange',function(event,value){
-				//console.debug('new speed selected: %o',value);
+				}
+			})
+			.bind('change',function(event,value){
+				console.debug('new date selected: %o',value);
 			});
 
 			$('select#demo3a, select#demo3b').selectToUISlider({
@@ -46,10 +52,11 @@
 				minRange: 3,
 				sliderOptions: {
 					animate: 'slow'
-				},
-			}).bind('sliderchange',function(event,value){
+				}
+			})
+			.bind('change',function(event,value){
 				// If you want to check range, just get the values from the select boxes themselves
-				//console.debug('new reporting period selected: %o',value);
+				// or look at the event.uiSliderContext
 			});
 		});
 	</script>

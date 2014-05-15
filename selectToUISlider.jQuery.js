@@ -107,9 +107,6 @@ jQuery.fn.selectToUISlider = function(settings){
 				if(option.attr('disabled') == 'disabled'){
 					return false;
 				}
-				
-				option.attr('selected', 'selected');
-				currSelect.trigger('sliderchange',[textval]);
 
 				//handle feedback 
 				var textval = ttText(ui.value);
@@ -118,6 +115,11 @@ jQuery.fn.selectToUISlider = function(settings){
 					.attr('aria-valuenow', ui.value)
 					.find('.ui-slider-tooltip .ttContent')
 						.text( textval );
+
+				option.attr('selected', 'selected');
+				currSelect.trigger('sliderchange',[textval]);
+				currSelect.trigger(jQuery.Event('change', {uiSliderEvent: e, uiSliderContext: ui}), [textval]);
+
 
 		},
 		values: (function(){
