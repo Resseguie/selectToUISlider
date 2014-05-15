@@ -20,10 +20,11 @@ jQuery.fn.selectToUISlider = function(settings){
 	
 	//accessible slider options
 	var options = jQuery.extend({
-		labels: 3, //number of visible labels
-		tooltip: true, //show tooltips, boolean
-		tooltipSrc: 'text',//accepts 'value' as well
-		labelSrc: 'value',//accepts 'value' as well	,
+		labels: 3,          //number of visible labels
+		tooltip: true,      //show tooltips, boolean
+		tooltipSrc: 'text', //accepts 'value' as well
+		labelSrc: 'value',  //accepts 'value' as well	,
+		minRange: 0,        // minimal range between handles
 		sliderOptions: null
 	}, settings);
 
@@ -91,24 +92,32 @@ jQuery.fn.selectToUISlider = function(settings){
 		slide: function(e, ui) {//slide function
 				var thisHandle = jQuery(ui.handle);
 
+				// If multiple select is true, this checks minimal range between handles
+				if(sliderOptions.range){
+					if((ui.values[1] - ui.values[0]) <= options.minRange - 1) {
+						return false;
+					}
+				}
+
 				//control original select menu
 				var currSelect = jQuery('#' + thisHandle.attr('id').split('handle_')[1]);
 				var option = currSelect.find('option').eq(ui.value);
-				if(option.attr('disabled') != 'disabled'){
-					option.attr('selected', 'selected');
-					currSelect.trigger('sliderchange',[textval]);
 
-					//handle feedback 
-					var textval = ttText(ui.value);
-					thisHandle
-						.attr('aria-valuetext', textval)
-						.attr('aria-valuenow', ui.value)
-						.find('.ui-slider-tooltip .ttContent')
-							.text( textval );
-				}else{
-					// if this option is disabled, abort the slider change
+				// if this option is disabled, abort the slider change
+				if(option.attr('disabled') == 'disabled'){
 					return false;
 				}
+				
+				option.attr('selected', 'selected');
+				currSelect.trigger('sliderchange',[textval]);
+
+				//handle feedback 
+				var textval = ttText(ui.value);
+				thisHandle
+					.attr('aria-valuetext', textval)
+					.attr('aria-valuenow', ui.value)
+					.find('.ui-slider-tooltip .ttContent')
+						.text( textval );
 
 		},
 		values: (function(){
