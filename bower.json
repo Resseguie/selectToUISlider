@@ -16,7 +16,8 @@
     "**/.*",
     "README.md",
     "index.html",
-    "bower_components"
+    "bower_components",
+    "node_modules"
   ],
   "dependencies": {
     "jquery": ">=1.11",

@@ -14,6 +14,8 @@
  * --------------------------------------------------------------------
  */
 
+'use strict';
+/*global jQuery:false */
 
 jQuery.fn.selectToUISlider = function(settings){
 	var selects = jQuery(this);
