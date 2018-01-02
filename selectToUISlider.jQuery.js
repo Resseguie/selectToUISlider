@@ -54,7 +54,7 @@ jQuery.fn.selectToUISlider = function(settings){
 
 	//array of opt groups if present
 	var groups = (function(){
-		if(selects.eq(0).find('optgroup').size()>0){
+		if(selects.eq(0).find('optgroup').length>0){
 			var groupedData = [];
 			selects.eq(0).find('optgroup').each(function(i){
 				groupedData[i] = {};
@@ -154,7 +154,7 @@ jQuery.fn.selectToUISlider = function(settings){
 		//associate label for ARIA
 		var thisLabel = jQuery('label[for=' + jQuery(this).attr('id') +']');
 		//labelled by aria doesn't seem to work on slider handle. Using title attr as backup
-		var labelText = (thisLabel.size()>0) ? 'Slider control for '+ thisLabel.text()+'' : '';
+		var labelText = (thisLabel.length>0) ? 'Slider control for '+ thisLabel.text()+'' : '';
 		var thisLabelId = thisLabel.attr('id') || thisLabel.attr('id', 'label_'+handleIds[i]).attr('id');
 		
 		
