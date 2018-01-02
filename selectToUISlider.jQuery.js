@@ -134,7 +134,9 @@ jQuery.fn.selectToUISlider = function(settings){
 	options.sliderOptions = (settings) ? jQuery.extend(sliderOptions, settings.sliderOptions) : sliderOptions;
 		
 	//select element change event   
-	selects.bind('change keyup click', function(){
+	selects
+		.off('change keyup click') // detach event in case of refresh to avoid multiple callbacks
+		.on('change keyup click', function(){
 		var thisIndex = jQuery(this).get(0).selectedIndex;
 		var thisHandle = jQuery('#handle_'+ jQuery(this).attr('id'));
 		var handleIndex = thisHandle.data('handleNum');
